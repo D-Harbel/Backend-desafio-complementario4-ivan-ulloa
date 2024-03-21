@@ -5,6 +5,7 @@ const { enviarEmail } = require('../mails/mails');
 const usuariosModelo = require('../dao/models/usermodel');
 const { creaHash, validaPassword } = require('../utils/utils');
 const crypto = require('crypto');
+const UserReadLocalDTO = require('../dto/userLocalDTO');
 
 
 module.exports = function (io) {
@@ -28,7 +29,6 @@ module.exports = function (io) {
 
         res.redirect('/views/products')
     });
-
 
     router.get('/errorRegistrate', (req, res) => {
         return res.redirect('/registrate?error=Error en el proceso de registro')

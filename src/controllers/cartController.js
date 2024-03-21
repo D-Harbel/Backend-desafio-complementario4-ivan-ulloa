@@ -86,6 +86,7 @@ class CartController {
         try {
             const { cid } = req.params;
             const newProducts = req.body.products;
+            console.log(newProducts)
 
             const updatedCart = await Cart.findByIdAndUpdate(cid, { products: newProducts }, { new: true })
                 .populate('products.product');

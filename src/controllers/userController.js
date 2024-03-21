@@ -4,10 +4,18 @@ const UserModel = require('../dao/models/usermodel');
 class userController {
     async changeUserRole(req, res) {
         const userId = req.params.uid;
-        const newRole = req.body.role;
+        let newRole;
 
         try {
-            if (newRole !== 'user' && newRole !== 'premium') {
+            const userRole = await UserModel.findById(userId);
+
+            if (!userRole) {
+                return res.status(404).json({ error: 'Usuario no encontrado' });
+            }
+
+            newRole = userRole.role === 'user' ? 'premium' : 'user';
+
+            if (newRole !== "user" && newRole !== "premium") {
                 return res.status(400).json({ error: 'Rol de usuario no válido' });
             }
 
