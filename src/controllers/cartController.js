@@ -3,6 +3,7 @@ const productService = require('../repository/product.service')
 const ticketLogic = require('../dao/ticketDao')
 
 const { Cart } = require('../dao/index');
+const CartRouter = require('../routers/CartRouter');
 
 class CartController {
     async createCart(req, res) {
@@ -21,6 +22,7 @@ class CartController {
             const cart = await CartService.getCartById(cid);
             if (cart) {
                 res.render('cart', { cart });
+                console.log(cart)
             } else {
                 res.status(404).json({ error: 'Carrito no encontrado' });
             }
@@ -52,7 +54,7 @@ class CartController {
             const updatedCart = await CartService.getCartById(cid);
             req.io.emit('updateCart', updatedCart);
     
-            res.status(201).json({ message: 'Producto agregado al carrito' });
+            res.status(201).json({ message: 'Producto agregado al carrito', product, updatedCart });
         } catch (error) {
             console.error(`Error al agregar un producto al carrito con ID ${cid}:`, error);
             res.status(500).json({ error: 'Error interno del servidor' });
@@ -92,6 +94,8 @@ class CartController {
                 status: 'success',
                 payload: updatedCart.products,
             });
+
+            console.log(updatedCart)
         } catch (error) {
             console.error('Error al actualizar el carrito:', error);
             res.status(500).json({ error: 'Error interno del servidor' });

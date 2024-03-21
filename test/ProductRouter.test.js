@@ -9,7 +9,7 @@ describe("Prueba routers products", async function () {
 
     this.timeout(5000)
 
-    let agent; // Variable para almacenar el agente de supertest
+    let agent;
 
     before(async () => {
         await mongoose.connect('mongodb+srv://I_Ulloa:Coderclave@ecommerce.6tv4mer.mongodb.net/?retryWrites=true&w=majority&dbName=ecommerce');
@@ -92,7 +92,6 @@ describe("Prueba routers products", async function () {
             expect(response.status).to.equal(200);
             expect(response.body).to.have.property('message').equal('Producto actualizado exitosamente');
     
-            // test para ver si las actualizaciones son correctas o no
             const updatedProductResponse = await requester.get(`/api/products/${productId}`);
             expect(updatedProductResponse.status).to.equal(200);
             expect(updatedProductResponse.body).to.have.property('product');
@@ -113,7 +112,6 @@ describe("Prueba routers products", async function () {
             expect(response.status).to.equal(200);
             expect(response.body).to.have.property('message').equal('Producto eliminado exitosamente');
     
-            // test para ver si el producto ya no existe
             const deletedProductResponse = await requester.get(`/api/products/${productId}`);
             expect(deletedProductResponse.status).to.equal(404);
             expect(deletedProductResponse.body).to.have.property('error').equal('Producto no encontrado');
